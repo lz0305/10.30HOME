@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <style>
+        *{margin: 0;padding: 0;list-style: none;text-decoration: none}
+        ul{width: 800px;margin: 0 auto;}
+        span{float: right;color: #333333;}
+        li a{color:#666 }
+        li{padding: 10px 5px;border-bottom: 1px dashed #dddddd;font-size: 14px;}
+    </style>
+</head>
+<body>
+<h1 style="text-align: center;margin: 50px">新闻列表</h1>
+
+<ul>
+</ul>
+</body>
+<script>
+    $(function () {
+        var aa=window.location.search.split("?")[1];
+        console.log(aa)
+        if(aa=="x"){
+            $.ajax({
+                url:"http://localhost:3000/",
+                type:"get",
+                data:{},
+                success:function (e) {
+                    console.log(e)
+                    for(i in e){
+                        $("ul").append(`<li title="${e[i].title}"><a href="list.html?${e[i].id}">${e[i].title}</a><span>${e[i].data}</span></li>`)
+                    }
+                }
+            })
+        }else {
+            $.ajax({
+                url:"http://localhost:3000/look",
+                type:"post",
+                data:{a:aa},
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    $("body").append(`<h1>${data[0].title}</h1><p>${data[0].data}</p><div>${data[0].message}</div>`)
+                }
+            })
+        }
+    })
+</script>
+</html>

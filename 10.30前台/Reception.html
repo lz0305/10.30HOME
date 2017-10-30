@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <style>
+        *{margin: 0;padding: 0;list-style: none;text-decoration: none}
+        #nav{overflow: hidden;margin: 100px auto 200px}
+        #nav li{float: left;padding: 20px;}
+        #news{font-size: 16px;  }
+        #news ul li:nth-of-type(1){color:#333;padding: 3px;font-size: 14px}
+        #news a{color: #666;}
+    </style>
+</head>
+<body>
+<ul id="nav">
+    <li>1</li>
+    <li>2</li>
+    <li><a href="list.html?x">新闻</a></li>
+</ul>
+<div id="news">
+</div>
+</body>
+<script>
+    $(function () {
+        $.ajax({
+            url:"http://localhost:3000/",
+            type:"get",
+            data:{},
+            success:function (e) {
+                console.log(e)
+                for(i in e){
+                    $("#news").append(`<ul><li>${e[i].data}</li><li><a href="list.html?${e[i].id}">${e[i].title}</a></li></ul>`)
+                }
+                $("a").each(function(){
+                    var maxwidth=10;
+                    if($(this).text().length>maxwidth){
+                        $(this).text($(this).text().substring(0,maxwidth));
+                        $(this).html($(this).html()+'…');
+                    }
+                });
+            }
+        })
+    })
+</script>
+</html>
